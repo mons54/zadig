@@ -13,6 +13,7 @@ export default {
         }
       })
     },
+    total: (state, getters) => getters.products.reduce((total, product) => total + product.price * product.quantity, 0)
   },
   actions: {
     addProductCart ({ state, commit }, product) {

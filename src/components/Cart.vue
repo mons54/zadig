@@ -1,30 +1,39 @@
 <template>
-  <div class="cart">
-    <div
-      v-for="product in products"
-      :key="product.id"
-      class="product">
-      <img :src="product.image|image"/>
-      <div>
-        <h3>{{ product.title }}</h3>
-        <div>{{ product.price|price }}</div>
-        <div class="quantity">
-          <label id="quantity">Quantité</label>
-          <select
-            v-on:change="setProductCart({ product, quantity: +$event.target.value })"
-            name="quantity">
-            <option
-              v-for="i in productAvailable(product)"
-              :key="i"
-              :selected="i === product.quantity">
-              {{ i }}
-            </option>
-          </select>
+  <div>
+    <div v-if="!products.length">
+      Votre panier est vide
+    </div>
+    <div v-else>
+      <div class="cart">
+        <div
+          v-for="product in products"
+          :key="product.id"
+          class="product">
+          <img :src="product.image|image"/>
+          <div>
+            <h3>{{ product.title }}</h3>
+            <div>{{ product.price * product.quantity|price }}</div>
+            <div class="quantity">
+              <label id="quantity">Quantité</label>
+              <select
+                v-on:change="setProductCart({ product, quantity: +$event.target.value })"
+                name="quantity">
+                <option
+                  v-for="i in productAvailable(product)"
+                  :key="i"
+                  :selected="i === product.quantity">
+                  {{ i }}
+                </option>
+              </select>
+            </div>
+            <button
+              v-on:click="deleteProductCart(product)"
+              class="delete">Supprimer</button>
+          </div>
         </div>
-        <button
-          v-on:click="deleteProductCart(product)"
-          class="delete">Supprimer</button>
       </div>
+      <hr>
+      <div class="total">{{ total|price }}</div>
     </div>
   </div>
 </template>
@@ -34,7 +43,8 @@ import { mapActions, mapGetters } from 'vuex'
 
 export default {
   computed: mapGetters('cart', {
-    products: 'products'
+    products: 'products',
+    total: 'total',
   }),
   methods: {
     ...mapActions('cart', [
@@ -90,6 +100,11 @@ export default {
 .quantity > select {
   padding: 8px;
   border-color: black;
+}
+
+.total {
+  text-align: center;
+  font-weight: 800;
 }
 
 @media (max-width: 640px) {
