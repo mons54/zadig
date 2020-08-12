@@ -4,10 +4,14 @@
       v-for="product in products"
       :key="product.id"
       class="product">
-      <img :src="`https://zadig-et-voltaire.imgix.net/${product.image}`"/>
+      <img :src="product.image|image"/>
       <h3>{{ product.title }}</h3>
-      <div>{{ product.price|price }}</div>
-      <button>Ajouter au panier</button>
+      <div>{{ product.stock|article }} - {{ product.price|price }}</div>
+      <button
+        v-on:click="addProductCart(product)"
+        :disabled="!product.stock">
+        Ajouter au panier
+      </button>
     </div>
   </div>
 </template>
@@ -20,6 +24,9 @@ export default {
     products: state => state.products.data
   }),
   methods: {
+    ...mapActions('cart', [
+      'addProductCart'
+    ]),
     ...mapActions('products', [
       'getProducts'
     ]),
@@ -44,15 +51,15 @@ export default {
   flex-direction: column;
 }
 
-.product img {
+.product > img {
   width: 100%;
 }
 
-.product h3 {
+.product > h3 {
   text-transform: uppercase;
 }
 
-.product button {
+.product > button {
   margin-top: 16px;
   width: 100%;
   border: none;
@@ -63,5 +70,9 @@ export default {
   text-transform: uppercase;
   font-size: 20px;
   cursor: pointer;
+}
+
+.product button[disabled] {
+  background-color: #9E9E9E;
 }
 </style>
