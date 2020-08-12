@@ -75,4 +75,11 @@ export default {
 .product button[disabled] {
   background-color: #9E9E9E;
 }
+
+@media (max-width: 640px) {
+  .products {
+    grid-template-columns: repeat(1, 1fr);
+    grid-row-gap: 20px;
+  }
+}
 </style>

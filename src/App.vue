@@ -26,3 +26,8 @@ export default {
   margin: 20px auto;
 }
 </style>
+<style scoped>
+hr {
+  margin: 20px 0;
+}
+</style>

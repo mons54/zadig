@@ -65,10 +65,6 @@ export default {
   width: 100%;
 }
 
-.product > div {
-
-}
-
 .product > div > h3 {
   margin-top: 0;
 }
@@ -94,5 +90,12 @@ export default {
 .quantity > select {
   padding: 8px;
   border-color: black;
+}
+
+@media (max-width: 640px) {
+  .cart {
+    grid-template-columns: repeat(1, 1fr);
+    grid-row-gap: 20px;
+  }
 }
 </style>
