@@ -31,6 +31,9 @@ export default {
     },
     setProductCart ({ state, commit }, { product, quantity }) {
 
+      if (product.stock + product.quantity < quantity)
+        return
+
       const item = state.items.find(item => item.id === product.id)
 
       if (item) {
@@ -44,10 +47,29 @@ export default {
         quantity: quantity - product.quantity,
       }, { root: true })
     },
+    deleteProductCart ({ state, commit }, product) {
+
+      const item = state.items.find(item => item.id === product.id)
+
+      if (!item)
+        return
+
+      commit('deleteItem', item.id)
+
+      commit('products/setStock', {
+        id: product.id,
+        quantity: -product.quantity,
+      }, { root: true })
+    },
   },
   mutations: {
     addItem (state, item) {
       state.items.push(item)
+    },
+    deleteItem (state, id) {
+      const index = state.items.findIndex(item => item.id === id)
+      if (index > -1)
+        state.items.splice(index, 1)
     },
     setQuantity (state, { item, quantity }) {
       item.quantity = quantity

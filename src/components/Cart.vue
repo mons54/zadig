@@ -21,6 +21,9 @@
             </option>
           </select>
         </div>
+        <button
+          v-on:click="deleteProductCart(product)"
+          class="delete">Supprimer</button>
       </div>
     </div>
   </div>
@@ -35,7 +38,8 @@ export default {
   }),
   methods: {
     ...mapActions('cart', [
-      'setProductCart'
+      'setProductCart',
+      'deleteProductCart',
     ]),
     productAvailable (product) {
       return product.stock + product.quantity
@@ -71,6 +75,14 @@ export default {
 
 .product > div > .quantity {
   margin-top: 16px;
+}
+
+.product > div > .delete {
+  margin-top: 12px;
+  border: none;
+  background-color: transparent;
+  cursor: pointer;
+  text-decoration: underline;
 }
 
 .quantity > label {
